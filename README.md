@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jean553/mini-parser.svg?branch=master)](https://travis-ci.org/jean553/mini-parser)
+
 # simple-parser
 
 Attempt to create a top-down recursive descent parser for a C-like language.
