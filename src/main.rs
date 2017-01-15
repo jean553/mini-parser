@@ -16,7 +16,7 @@ fn is_digit(character: char) -> bool {
 }
 
 fn main() {
-    
+
     let args: Vec<_> = env::args().collect();
 
     if args.len() != 2 {
@@ -24,10 +24,32 @@ fn main() {
         process::exit(1);
     }
 
+    let mut output = String::from(
+r#"
+bits 64
+
+segment .text
+    global _start
+
+_start:
+"#
+    );
+
     for character in args[1].chars() {
 
         if is_digit(character)
         {
+            // this assembly instruction is meaningless for now
+            output += "mov al, ";
+            output.push(character);
         }
     }
+
+    output +=
+r#"
+mov eax, 1
+int 0x80
+"#;
+
+    print!("{}", output);
 }
