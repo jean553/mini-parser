@@ -37,8 +37,8 @@ _start:
 
     for character in args[1].chars() {
 
-        if is_digit(character)
-        {
+        if is_digit(character) {
+
             // this assembly instruction is meaningless for now
             output += "mov al, ";
             output.push(character);
