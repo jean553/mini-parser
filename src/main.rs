@@ -28,7 +28,7 @@ fn main() {
 r#"
 bits 64
 
-section .text
+segment .text
     global _start
 
 _start:
@@ -39,6 +39,7 @@ _start:
 
         if is_digit(character)
         {
+            // this assembly instruction is meaningless for now
             output += "mov al, ";
             output.push(character);
         }
