@@ -38,7 +38,7 @@ mov eax, 6
 add eax, ebx
 
 mov eax, 1
-int 0x10
+int 0x80
 ```
 
 #### Program generation with nasm
