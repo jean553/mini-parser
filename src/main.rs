@@ -1,11 +1,11 @@
-//! Parser main file 
+//! Parser main file
 
 use std::env;
 use std::process;
 use std::io::stderr;
 use std::io::Write;
 
-/// Check if the given character is a digit (between 0 and 9) 
+/// Check if the given character is a digit (between 0 and 9)
 ///
 /// # Arguments
 ///
@@ -24,6 +24,80 @@ fn is_plus(character: char) -> bool {
     return character == '+';
 }
 
+/// Generates assembly instructions when a digit is met
+///
+/// # Arguments:
+///
+/// * `ouput` - String object to generate the ouput assembly
+/// (mutable reference in order to add code)
+/// * `character` - character to check
+fn read_digit(
+    output: &mut std::string::String,
+    character: char
+) {
+    output.push_str("mov eax, ");
+    output.push(character);
+    output.push('\n');
+}
+
+/// Generates assembly instructions when a '+' is met
+///
+/// # Arguments:
+///
+/// * `iterator` - iterator over the input characters
+/// (mutable reference in order to iterate)
+/// * `ouput` - String object to generate the ouput assembly
+/// (mutable reference in order to add code)
+fn read_plus(
+    iterator: &mut std::str::Chars,
+    output: &mut std::string::String
+) {
+    output.push_str("mov ebx, eax\n");
+
+    let character = iterator.next();
+    match character {
+        Some(character) => {
+            read_digit(output, character);
+        }
+        None => {}
+    }
+
+    output.push_str("add eax, ebx\n");
+}
+
+/// Check if the given character matches with a symbol type
+///
+/// # Arguments:
+///
+/// * `iterator` - iterator over the input characters
+/// (mutable reference in order to iterate)
+/// * `ouput` - String object to generate the ouput assembly
+/// (mutable reference in order to add code)
+/// * `character` - character to check
+fn handle_character(
+    iterator: &mut std::str::Chars,
+    output: &mut std::string::String,
+    character: char
+)
+{
+    let character_is_digit: bool = is_digit(character);
+    let character_is_plus: bool = is_plus(character);
+
+    if !character_is_digit && !character_is_plus {
+        return;
+    }
+
+    if character_is_digit {
+        read_digit(output, character);
+    }
+
+    if character_is_plus {
+        read_plus(iterator, output);
+    }
+
+    iterate(iterator, output);
+}
+
 /// Recursive method that reads the given instructions from 'iterator'
 /// and fills the 'output' string object with assembly code
 ///
@@ -40,33 +114,7 @@ fn iterate(
     let character = iterator.next();
     match character {
         Some(character) => {
-
-            if is_digit(character) {
-
-                output.push_str("mov eax, ");
-                output.push(character);
-                output.push('\n');
-
-                iterate(iterator, output);
-            }
-            else if is_plus(character) {
-
-                output.push_str("mov ebx, eax\n");
-
-                let next_character = iterator.next();
-                match next_character {
-                    Some(next_character) => {
-                        output.push_str("mov eax, ");
-                        output.push(next_character);
-                        output.push('\n');
-                    }
-                    None => {}
-                }
-
-                output.push_str("add eax, ebx\n");
-
-                iterate(iterator, output);
-            }
+            handle_character(iterator, output, character);
         }
         None => {}
     };
