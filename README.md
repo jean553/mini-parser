@@ -13,6 +13,18 @@ The grammar is written during the parser development.
 My goal is to discover how parsing process works and 
 learn more about compilation.
 
+## Current supported syntax (BNF)
+
+```bnf
+<sum_operation> ::= <digit> '+' <digit>
+<digit>         ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+```
+
+## Lex and Yacc
+
+The grammar can be verified using Lex and Yacc.
+The .lex and .y files can be found in lex_yacc/ folder.
+
 ## Working examples
 
 #### Basic operation `x+y`:
