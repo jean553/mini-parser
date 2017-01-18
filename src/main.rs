@@ -5,24 +5,7 @@ use std::process;
 use std::io::stderr;
 use std::io::Write;
 
-/// Check if the given character is a digit (between 0 and 9)
-///
-/// # Arguments
-///
-/// * `character` - character to check
-fn is_digit(character: char) -> bool {
-    let digits: [char; 10] = ['0','1','2','3','4','5','6','7','8','9'];
-    return digits.contains(&character);
-}
-
-/// Check if the given character is a plus (+)
-///
-/// # Arguments
-///
-/// * `character` - character to check
-fn is_plus(character: char) -> bool {
-    return character == '+';
-}
+mod lexical_analyzer;
 
 /// Generates assembly instructions when a digit is met
 ///
@@ -80,8 +63,8 @@ fn handle_character(
     character: char
 )
 {
-    let character_is_digit: bool = is_digit(character);
-    let character_is_plus: bool = is_plus(character);
+    let character_is_digit: bool = lexical_analyzer::is_digit(character);
+    let character_is_plus: bool = lexical_analyzer::is_plus(character);
 
     if !character_is_digit && !character_is_plus {
         return;
