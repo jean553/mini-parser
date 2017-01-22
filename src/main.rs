@@ -5,102 +5,25 @@ use std::process;
 use std::io::stderr;
 use std::io::Write;
 
-mod lexical_analyzer;
+enum Token {
+    Digit{character: char},
+    Plus,
+    Unknown
+}
 
-/// Generates assembly instructions when a digit is met
+/// Lexical analyze of one character and return a token for parsing.
 ///
 /// # Arguments:
 ///
-/// * `ouput` - String object to generate the ouput assembly
-/// (mutable reference in order to add code)
 /// * `character` - character to check
-fn read_digit(
-    output: &mut std::string::String,
-    character: char
-) {
-    output.push_str("mov eax, ");
-    output.push(character);
-    output.push('\n');
-}
+fn get_token_from_character(character: char) -> Token {
 
-/// Generates assembly instructions when a '+' is met
-///
-/// # Arguments:
-///
-/// * `iterator` - iterator over the input characters
-/// (mutable reference in order to iterate)
-/// * `ouput` - String object to generate the ouput assembly
-/// (mutable reference in order to add code)
-fn read_plus(
-    iterator: &mut std::str::Chars,
-    output: &mut std::string::String
-) {
-    output.push_str("mov ebx, eax\n");
-
-    let character = iterator.next();
     match character {
-        Some(character) => {
-            read_digit(output, character);
-        }
-        None => {}
+        '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' =>
+            Token::Digit{character: character},
+        '+' => Token::Plus,
+        _ => Token::Unknown
     }
-
-    output.push_str("add eax, ebx\n");
-}
-
-/// Check if the given character matches with a symbol type
-///
-/// # Arguments:
-///
-/// * `iterator` - iterator over the input characters
-/// (mutable reference in order to iterate)
-/// * `ouput` - String object to generate the ouput assembly
-/// (mutable reference in order to add code)
-/// * `character` - character to check
-fn handle_character(
-    iterator: &mut std::str::Chars,
-    output: &mut std::string::String,
-    character: char
-)
-{
-    let character_is_digit: bool = lexical_analyzer::is_digit(character);
-    let character_is_plus: bool = lexical_analyzer::is_plus(character);
-
-    if !character_is_digit && !character_is_plus {
-        return;
-    }
-
-    if character_is_digit {
-        read_digit(output, character);
-    }
-
-    if character_is_plus {
-        read_plus(iterator, output);
-    }
-
-    iterate(iterator, output);
-}
-
-/// Recursive method that reads the given instructions from 'iterator'
-/// and fills the 'output' string object with assembly code
-///
-/// # Arguments
-///
-/// * `iterator` - iterator over the input characters
-/// (mutable reference in order to iterate)
-/// * `ouput` - String object to generate the ouput assembly
-/// (mutable reference in order to add code)
-fn iterate(
-    iterator: &mut std::str::Chars,
-    output: &mut std::string::String
-) {
-    let character = iterator.next();
-    match character {
-        Some(character) => {
-            handle_character(iterator, output, character);
-        }
-        None => {}
-    };
 }
 
 fn main() {
@@ -123,8 +46,38 @@ _start:
 "#
     );
 
-    let mut iterator = args[1].chars();
-    iterate(&mut iterator, &mut output);
+    let mut previous: Vec<Token> = Vec::new();
+
+    for character in args[1].chars() {
+        let token: Token = get_token_from_character(character);
+
+        match token {
+            Token::Digit{character} => {
+                output.push_str("mov eax, ");
+                output.push(character);
+                output.push('\n');
+
+                // TODO: won't work with numbers, must be improved
+                match previous.last() {
+                    Some(symbol) => {
+                        match *symbol {
+                            Token::Plus => {
+                                output.push_str("add eax, ebx\n");
+                            }
+                            _ => {}
+                        }
+                    }
+                    None => {}
+                }
+            }
+            Token:: Plus => {
+                output.push_str("mov ebx, eax\n");
+            }
+            _ => {}
+        }
+
+        previous.push(token);
+    }
 
     output +=
 r#"
