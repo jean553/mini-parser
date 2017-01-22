@@ -19,11 +19,10 @@ enum Token {
 fn get_token_from_character(character: char) -> Token {
 
     match character {
-        '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' => {
-            Token::Digit{character: character}
-        }
-        '+' => {Token::Plus}
-        _ => {Token::Unknown}
+        '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' =>
+            Token::Digit{character: character},
+        '+' => Token::Plus,
+        _ => Token::Unknown
     }
 }
 
@@ -61,12 +60,11 @@ _start:
                 // TODO: won't work with numbers, must be improved
                 match previous.last() {
                     Some(symbol) => {
-                        match symbol {
-                            &Token::Plus => {
+                        match *symbol {
+                            Token::Plus => {
                                 output.push_str("add eax, ebx\n");
                             }
-                            _ => {
-                            }
+                            _ => {}
                         }
                     }
                     None => {}
