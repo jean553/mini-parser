@@ -8,6 +8,7 @@ use std::io::Write;
 enum Token {
     Digit{character: char},
     Plus,
+    Minus,
     Unknown
 }
 
@@ -22,6 +23,7 @@ fn get_token_from_character(character: char) -> Token {
         '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' =>
             Token::Digit{character: character},
         '+' => Token::Plus,
+        '-' => Token::Minus,
         _ => Token::Unknown
     }
 }
@@ -64,13 +66,16 @@ _start:
                             Token::Plus => {
                                 output.push_str("add eax, ebx\n");
                             }
+                            Token::Minus => {
+                                output.push_str("sub eax, ebx\n");
+                            }
                             _ => {}
                         }
                     }
                     None => {}
                 }
             }
-            Token:: Plus => {
+            Token::Plus | Token::Minus => {
                 output.push_str("mov ebx, eax\n");
             }
             _ => {}
