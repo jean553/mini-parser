@@ -57,48 +57,50 @@ int 0x80
 
 Write the code and parse it using mini-parser:
 
-```
+```sh
 mini-parser 4+6
 ```
 
 Use NASM Assembler to generate an object file:
 
-```
+```sh
 nasm -f elf64 test.asm
 ```
 
 Use the linker to generate the final executable:
 
-```
+```sh
 ld -s -o test test.o
 ```
 
 The executable file can be run:
 
-```
+```sh
 ./test
+```
+
+## Build the environment
+
+```sh
+vagrant up
 ```
 
 ## Compile
 
-You must have Rust and Cargo installed.
-
-```
-cargo build
+```sh
+cargo build --release
 ```
 
 ## Execute
 
-Debug mode.
-
-```
-./target/debug/mini_parser {input}
+```sh
+./target/release/mini_parser {input}
 ```
 
 ## Documentation
 
 Generate the documentation:
 
-```
+```sh
 cargo rustdoc -- --no-defaults
 ```
