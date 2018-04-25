@@ -42,7 +42,7 @@ r#"
 bits 64
 
 segment .text
-    global _start
+global _start
 
 _start:
 "#
