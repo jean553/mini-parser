@@ -74,7 +74,7 @@ We choose ELF 64 bits.
 Use the linker to generate the final executable:
 
 ```sh
-ld -s -o test test.o
+ld -o test test.o
 ```
 
 The executable file can be run:
