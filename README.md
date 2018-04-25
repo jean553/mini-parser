@@ -67,10 +67,14 @@ Use NASM Assembler to generate an object file:
 nasm -f elf64 test.asm
 ```
 
+In order to be linked using `ld`, the output object file
+must be organized using a specific format.
+We choose ELF 64 bits.
+
 Use the linker to generate the final executable:
 
 ```sh
-ld -s -o test test.o
+ld -o test test.o
 ```
 
 The executable file can be run:
@@ -104,3 +108,24 @@ Generate the documentation:
 ```sh
 cargo rustdoc -- --no-defaults
 ```
+
+## Compilation details
+
+### exit() syscall
+
+The `exit` syscall is automatically appended to the assembly code at the end.
+It asks the kernel to stop the calling program.
+
+```asm
+mov eax, 1
+int 0x80
+```
+
+The interrupt 0x80 calls the syscall `exit` if `eax` value is 1.
+
+### Entry point
+
+`_start` is the entrypoint, declared as global to be accessed by the system
+in order to start the program execution.
+
+This is the name searched by `ld` during linking process.
