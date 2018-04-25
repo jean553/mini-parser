@@ -67,6 +67,10 @@ Use NASM Assembler to generate an object file:
 nasm -f elf64 test.asm
 ```
 
+In order to be linked using `ld`, the output object file
+must be organized using a specific format.
+We choose ELF 64 bits.
+
 Use the linker to generate the final executable:
 
 ```sh
