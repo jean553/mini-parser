@@ -4,6 +4,12 @@
 
 Attempt to create a top-down recursive descent parser for a C-like language.
 
+## Tasks in progress
+
+ * add details about Lex and Yacc into the documentation
+ * add details about Lex and Yacc files and code
+ * add details about BNF into the documentation
+
 ## Objectives
 
 Parse an input, generate x86 assembly code according to this input.
