@@ -31,6 +31,37 @@ learn more about compilation.
 The grammar can be verified using Lex and Yacc.
 The .lex and .y files can be found in lex_yacc/ folder.
 
+### Lex
+
+Lex is the "Lexical Analyser". It gets an input and find the "interesting bits" from this input,
+like `(`, `{`, `[`, `;`... it also locate individual characters and their word.
+
+For example, the lexical analyser gets the following input:
+
+```
+int value = 5;
+```
+
+And generates the following tokens:
+
+```
+int
+value
+=
+5
+;
+```
+
+Usually, it produces a list of the smallest tokens the given grammar can support.
+
+### Yacc
+
+Yacc is a parser, and means "Yet Another Compiler Compiler".
+Yacc triggers actions (write program output, create syntax trees...)
+when items of the grammar are recognized after the lexical analysis.
+
+Lex and Yacc are complimentary tools.
+
 ## Working examples
 
 #### Basic operation `x+y`:
