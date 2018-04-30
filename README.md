@@ -31,6 +31,11 @@ learn more about compilation.
 The grammar can be verified using Lex and Yacc.
 The .lex and .y files can be found in lex_yacc/ folder.
 
+### Lex
+
+Lex is the "Lexical Analyser". It gets an input and find the "interesting bits" from this input,
+like `(`, `{`, `[`, `;`... it also locate individual characters and their word.
+
 ## Working examples
 
 #### Basic operation `x+y`:
