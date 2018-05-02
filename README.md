@@ -61,6 +61,15 @@ Yacc is a parser, and means "Yet Another Compiler Compiler".
 Yacc triggers actions (write program output, create syntax trees...)
 when items of the grammar are recognized after the lexical analysis.
 
+Yacc **generates C code** that "parses" the given grammar.
+
+This C code can then be compiled in order to generate a parser
+that is able to understand our grammar.
+
+This is useful to check if the developed parser (here in Rust)
+actually does what is expected by comparing the output
+of code both given to the Yacc generated C-parser and the custom parser.
+
 Build syntax tree:
 
 ```
@@ -87,6 +96,30 @@ mov [value], ax
 ```
 
 Lex and Yacc are complimentary tools.
+
+### Parser generation steps
+
+The following steps are required to generate a Parser using Lex and Yacc.
+
+Generate the syntax analyzer (parser). It uses the grammar description from `test.y`.
+(-d option in order to expose tokens as defines into the generated .h file)
+
+```
+yacc -d test.y
+```
+
+Generate the lexical analyser. It uses definition from `test.lex`
+and tokens from the `yacc` generated header file (`y.tab.h`).
+
+```
+lex test.lex
+```
+
+Generate the parser using a standard C compiler:
+
+```
+cc lex.yy.c y.tab.c
+```
 
 ## Working examples
 

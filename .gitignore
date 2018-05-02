@@ -3,3 +3,7 @@ Cargo.lock
 .*
 !.gitignore
 !.travis.yml
+a.out
+lex.yy.c
+y.tab.c
+y.tab.h
