@@ -1,10 +1,15 @@
 %{
 
 #include "global.h"
-#include "test.h"
+#include "y.tab.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
+int yywrap (void)
+{
+    return 1;
+}
 
 %}
 
