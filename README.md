@@ -6,7 +6,6 @@ Attempt to create a top-down recursive descent parser for a C-like language.
 
 ## Tasks in progress
 
- * add details about Lex and Yacc into the documentation
  * add details about Lex and Yacc files and code
  * add details about BNF into the documentation
 
@@ -39,7 +38,7 @@ like `(`, `{`, `[`, `;`... it also locate individual characters and their word.
 For example, the lexical analyser gets the following input:
 
 ```
-int value = 5;
+int value = 5 + 2;
 ```
 
 And generates the following tokens:
@@ -49,6 +48,8 @@ int
 value
 =
 5
++
+2
 ;
 ```
 
@@ -59,6 +60,31 @@ Usually, it produces a list of the smallest tokens the given grammar can support
 Yacc is a parser, and means "Yet Another Compiler Compiler".
 Yacc triggers actions (write program output, create syntax trees...)
 when items of the grammar are recognized after the lexical analysis.
+
+Build syntax tree:
+
+```
+        =
+  +---+   +---+
+  |           |
+  v           v
+value
+              +
+        +---+   +---+
+        |           |
+        v           v
+
+        5           2
+
+```
+
+Generated code (pseudo-assembly):
+
+```asm
+mov ax, 5
+add 2
+mov [value], ax
+```
 
 Lex and Yacc are complimentary tools.
 
