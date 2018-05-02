@@ -18,7 +18,25 @@ The grammar is written during the parser development.
 My goal is to discover how parsing process works and 
 learn more about compilation.
 
-## Current supported syntax (BNF)
+## Table of content
+
+ - [Current supported syntax](#current-supported-syntax)
+ - [Lex and Yacc](#lex-and-yacc)
+    * [Lex](#lex)
+    * [Yacc](#yacc)
+    * [Parser generation steps](#parser-generation-steps)
+ - [Working examples](#working-examples)
+    * [Basic operation](#basic-operation)
+    * [Program generation with nasm](#program-generation-with-nasm)
+ - [Build the environment](#build-the-environment)
+ - [Compile](#compile)
+ - [Execute](#execute)
+ - [Documentation](#documentation)
+ - [Compilation details](#compilation-details)
+    * [exit syscall](#exit-syscall)
+    * [Entrypoint](#entrypoint)
+
+## Current supported syntax
 
 ```bnf
 <sum_operation> ::= <digit> '+' <digit>
@@ -123,7 +141,7 @@ cc lex.yy.c y.tab.c
 
 ## Working examples
 
-#### Basic operation `x+y`:
+### Basic operation
 
 Input:
 
@@ -149,7 +167,7 @@ mov eax, 1
 int 0x80
 ```
 
-#### Program generation with nasm
+### Program generation with nasm
 
 Write the code and parse it using mini-parser:
 
@@ -207,7 +225,7 @@ cargo rustdoc -- --no-defaults
 
 ## Compilation details
 
-### exit() syscall
+### exit syscall
 
 The `exit` syscall is automatically appended to the assembly code at the end.
 It asks the kernel to stop the calling program.
@@ -219,7 +237,7 @@ int 0x80
 
 The interrupt 0x80 calls the syscall `exit` if `eax` value is 1.
 
-### Entry point
+### Entrypoint
 
 `_start` is the entrypoint, declared as global to be accessed by the system
 in order to start the program execution.
