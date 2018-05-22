@@ -147,6 +147,18 @@ Lex and Yacc files have three sections (separated by `%%`):
  * token/grammar rules and definitions,
  * C-code to be copy/pasted into the final output 
 
+#### Lex file sections
+
+We examine here the sections of the `test.lex` file.
+
+ * Before `%%`: control section, C code to be copied into the final output,
+ * After the first `%%`: tokens section, regular expressions (tokens) with their respective actions
+ * After the second `%%`: code to be copied into the final output
+(unlike the first section, this section does not require any `%{` and `%}` symbols).
+
+When parsing the input, everytime one of the regular expression is met,
+the associated action is executed.
+
 ## Working examples
 
 ### Basic operation
