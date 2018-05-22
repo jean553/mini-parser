@@ -25,6 +25,7 @@ learn more about compilation.
     * [Lex](#lex)
     * [Yacc](#yacc)
     * [Parser generation steps](#parser-generation-steps)
+    * [Files sections](#files-sections)
  - [Working examples](#working-examples)
     * [Basic operation](#basic-operation)
     * [Program generation with nasm](#program-generation-with-nasm)
@@ -51,7 +52,7 @@ The .lex and .y files can be found in lex_yacc/ folder.
 ### Lex
 
 Lex is the "Lexical Analyser". It gets an input and find the "interesting bits" from this input,
-like `(`, `{`, `[`, `;`... it also locate individual characters and their word.
+like `(`, `{`, `[`, `;`... it also locate individual characters and their words.
 
 For example, the lexical analyser gets the following input:
 
@@ -138,6 +139,25 @@ Generate the parser using a standard C compiler:
 ```
 cc lex.yy.c y.tab.c
 ```
+
+### Files sections
+
+Lex and Yacc files have three sections (separated by `%%`):
+ * header/control information,
+ * token/grammar rules and definitions,
+ * C-code to be copy/pasted into the final output 
+
+#### Lex file sections
+
+We examine here the sections of the `test.lex` file.
+
+ * Before `%%`: control section, C code to be copied into the final output,
+ * After the first `%%`: tokens section, regular expressions (tokens) with their respective actions
+ * After the second `%%`: code to be copied into the final output
+(unlike the first section, this section does not require any `%{` and `%}` symbols).
+
+When parsing the input, everytime one of the regular expression is met,
+the associated action is executed.
 
 ## Working examples
 
